@@ -11,16 +11,16 @@ class PageController extends Controller
 
     public function cek()
     {
-        return view('cek');
+        return view('admin.layouts.cek');
     }
 
     public function laporGejala()
     {
-        return view('lapor-gejala');
+        return view('admin.layouts.lapor-gejala');
     }
 
     public function laporApi()
     {
-        return view('lapor-api');
+        return view('admin.layouts.lapor-api');
     }
 }
