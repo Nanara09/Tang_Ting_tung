@@ -115,7 +115,7 @@
     <div class="cta">
       <div style="flex:1 1 340px;min-width:0">
         <h2>Batuk, sesak, atau mata perih karena asap? Cek kesehatanmu sekarang.</h2>
-        <p>Melihat api atau asap tebal? Lapor titik api di sini, atau hubungi Posko Karhutla Kementerian Kehutanan di 0813-1003-5000.</p>
+        <p>Melihat api atau asap tebal? Lapor titik api di sini, atau hubungi Posko Karhutla Kementerian Kehutanan di +62 8131-00-35000 dan 021-5704618.</p>
       </div>
       <div class="row" style="gap:12px">
         <a class="btn btn-primary" href="{{ route('cek') }}">Cek kesehatan</a>

@@ -24,10 +24,17 @@ class FireReportController extends Controller
             ->whereIn('fire_report_id', $reports->pluck('id'))
             ->get()
             ->groupBy('fire_report_id');
+return response()->json(
+    $reports->map(function ($r) use ($voted) {
+        $data = (array) $r;
 
-        return response()->json(
-            $reports->map(fn ($r) => $r->toPublic(($voted[$r->id] ?? collect())->pluck('choice')->all()))->values()
-        );
+        $data['votes'] = ($voted[$r->id] ?? collect())
+            ->pluck('choice')
+            ->all();
+
+        return $data;
+    })->values()
+);
     }
 
     public function store(StoreFireReportRequest $request): JsonResponse
