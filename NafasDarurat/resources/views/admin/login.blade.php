@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts')
 @section('title', 'Masuk admin | NafasDarurat')
 @section('robots')
 <meta name="robots" content="noindex">

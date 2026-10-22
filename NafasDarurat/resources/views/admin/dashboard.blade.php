@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts')
 @section('title', 'Admin | NafasDarurat')
 @section('robots')
 <meta name="robots" content="noindex">
@@ -10,9 +10,9 @@
         'approved' => ['Disetujui', 'lv-baik'],
         'rejected' => ['Ditolak', 'lv-sangat-buruk'],
     ];
-    $durasi = collect(config('nafasaman.durations'))->pluck('name', 'id');
-    $kelompok = collect(config('nafasaman.groups'))->pluck('name', 'id');
-    $statusLabel = config('nafasaman.status');
+    $durasi = collect(config('nafasdarurat.durations'))->pluck('name', 'id');
+    $kelompok = collect(config('nafasdarurat.groups'))->pluck('name', 'id');
+    $statusLabel = config('nafasdarurat.status');
 @endphp
 
 @section('content')
@@ -50,7 +50,15 @@
                 @if ($r->photo_path)
                   <img class="thumb" src="{{ $r->photoUrl() }}" alt="Foto laporan {{ $r->place }}">
                 @else
-                  <span class="thumb" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"></rect><circle cx="9" cy="10.5" r="1.8" stroke="currentColor" stroke-width="1.6"></circle><path d="M4 17l5-4.5 3.5 3L16 12l4 4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg></span>
+                  <span class="thumb" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8">
+                  </rect>
+                  <circle cx="9" cy="10.5" r="1.8" stroke="currentColor" stroke-width="1.6">
+                  </circle>
+                  <path d="M4 17l5-4.5 3.5 3L16 12l4 4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+                  </path>
+                  </svg>
+                  </span>
                 @endif
               </td>
               <td>
