@@ -124,6 +124,9 @@
     </div>
   </section>
 </main>
+
+<a class="btn btn-primary "href="admin/masuk">Admin</a>
+
 @endsection
 
 @push('scripts')

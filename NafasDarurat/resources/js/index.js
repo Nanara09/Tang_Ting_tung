@@ -1,4 +1,4 @@
-/* NafasDarurat - index.js
+/* NafasDarurat
    Beranda: cek udara, grafik gejala, peta titik api, daftar fasilitas. */
 (function () {
   'use strict';

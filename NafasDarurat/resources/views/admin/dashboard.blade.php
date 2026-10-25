@@ -98,7 +98,7 @@
         </tbody>
       </table>
     </div>
-    <p class="small muted">Nama dan kontak pelapor tidak disimpan, sehingga tidak ada data pribadi di tabel ini.</p>
+    <p class="small muted">Nama pelapor disimpan untuk kebutuhan pencatatan. Jaga kerahasiaan data dan batasi akses ke halaman admin.</p>
   </div>
 
   <div id="pane-health" role="tabpanel" aria-labelledby="tab-health" @if($tab !== 'health') hidden @endif>
@@ -122,11 +122,12 @@
     <h2 style="margin:28px 0 12px;font-size:18px;font-weight:800">10 laporan terbaru</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Waktu</th><th>Wilayah</th><th>Gejala</th><th>Lama</th><th>Kelompok</th></tr></thead>
+        <thead><tr><th>Waktu</th><th>Nama</th><th>Wilayah</th><th>Gejala</th><th>Lama</th><th>Kelompok</th></tr></thead>
         <tbody>
           @foreach ($recent as $r)
             <tr>
               <td>{{ $r->created_at->diffForHumans() }}</td>
+              <td>{{ $r->nama ?: '—' }}</td>
               <td>{{ $r->kelurahan }}, {{ $r->kota }}</td>
               <td>{{ collect($r->gejala)->map(fn ($id) => $labels[$id] ?? $id)->implode(', ') }}</td>
               <td>{{ $durasi[$r->durasi] ?? $r->durasi }}</td>

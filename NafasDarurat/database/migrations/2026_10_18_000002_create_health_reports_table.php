@@ -11,6 +11,7 @@ return new class extends Migration
         // Laporan gejala anonim: tanpa nama, kontak, atau lokasi tepat.
         Schema::create('health_reports', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
             $table->string('kota', 40);
             $table->string('kelurahan', 40);
             $table->json('gejala');            // contoh: ["batuk","mata"]

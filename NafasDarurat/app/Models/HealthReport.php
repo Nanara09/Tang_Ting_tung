@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class HealthReport extends Model
 {
-    protected $fillable = ['kota', 'kelurahan', 'gejala', 'durasi', 'kelompok'];
+    protected $fillable = ['nama', 'kota', 'kelurahan', 'gejala', 'durasi', 'kelompok'];
 
     protected $casts = ['gejala' => 'array'];
 

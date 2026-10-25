@@ -7,8 +7,8 @@
   const { esc, timeAgo } = NA;
   const $ = (sel) => document.querySelector(sel);
 
-  const DEMO_USER = 'admin';
-  const DEMO_PASS = 'admin123';
+  const DEMO_USER = 'admin@gmail.com';
+  const DEMO_PASS = 'niagarafruit';
 
   const authed = () => {
     try { return sessionStorage.getItem('na_admin') === '1'; } catch (e) { return false; }

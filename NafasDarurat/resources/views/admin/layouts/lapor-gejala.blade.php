@@ -19,7 +19,7 @@
 
   <form id="form" novalidate style="display:flex;flex-direction:column;gap:22px">
     <section aria-labelledby="h1">
-      <h2 id="h1"><span class="n">1</span>Wilayah</h2>
+      <h2 id="h1"><span class="n"></span>Wilayah</h2>
       <div class="fields">
         <div class="field">
           <label for="kota">Kota</label>
@@ -31,26 +31,27 @@
           <input id="kel" name="kel" type="text" maxlength="40" placeholder="Contoh: Kelurahan A" autocomplete="off" required>
         </div>
       </div>
+       <div class="field">
+          <label for="nama">Nama Pengguna</label>
+          <input id="nama" name="nama" type="text" maxlength="40" placeholder="Contoh: Asep" autocomplete="off" required>
+        </div>
+      </div>
     </section>
 
     <section aria-labelledby="h2">
-      <h2 id="h2"><span class="n">2</span>Gejala yang dirasakan</h2>
+      <h2 id="h2"><span class="n"></span>Gejala yang dirasakan</h2>
       <div class="check-grid" id="sym-grid"></div>
     </section>
 
     <section aria-labelledby="h3">
-      <h2 id="h3"><span class="n">3</span>Sudah berapa lama</h2>
+      <h2 id="h3"><span class="n"></span>Sudah berapa lama</h2>
       <div class="opts" id="dur-opts"></div>
     </section>
 
     <section aria-labelledby="h4">
-      <h2 id="h4"><span class="n">4</span>Kelompok pelapor</h2>
+      <h2 id="h4"><span class="n"></span>Kelompok pelapor</h2>
       <div class="opts" id="group-opts"></div>
     </section>
-
-    <div class="notice">
-      <span>Laporan anonim. Yang dikirim hanya wilayah, gejala, dan lama gejala, tanpa nama, kontak, atau lokasi tepat.</span>
-    </div>
 
     <p class="err" id="err" role="alert"></p>
     <button type="submit" class="btn btn-primary btn-block">Kirim laporan gejala</button>
