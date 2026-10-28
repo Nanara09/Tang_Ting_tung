@@ -60,5 +60,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/lapor-gejala.js') }}"></script>
+@vite('resources/js/lapor-gejala.js')
 @endpush

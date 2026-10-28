@@ -130,5 +130,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/index.js') }}"></script>
+@vite('resources/js/index.js')
 @endpush

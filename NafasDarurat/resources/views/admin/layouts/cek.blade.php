@@ -43,5 +43,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/cek.js') }}"></script>
+@vite('resources/js/cek.js')
 @endpush
