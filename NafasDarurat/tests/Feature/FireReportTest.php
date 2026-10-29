@@ -40,8 +40,9 @@ test('public API returns only approved fire reports', function () {
 
 
 
+
 test('voting can be added and cancelled', function () {
-    $report = new FireReport([
+    $report = new \App\Models\FireReport([
         'place' => 'Tes Voting',
         'description' => 'Laporan untuk pengujian',
         'status' => 'api',
@@ -52,23 +53,30 @@ test('voting can be added and cancelled', function () {
     $report->state = 'approved';
     $report->save();
 
-    // Gunakan session ID yang sama untuk kedua request.
     $payload = ['choice' => 'y'];
 
-$this->withSession(['_token' => 'test-token']);
+  $this->call(
+    'POST',
+    "/api/titik-api/{$report->id}/vote",
+    $payload,
+    ['voter_id' => 'test-voter-id'],
+    [],
+    ['HTTP_ACCEPT' => 'application/json']
+)->assertOk()
+  ->assertJsonPath('yes', 1);
 
-   $this->postJson("/api/titik-api/{$report->id}/vote", $payload)
-    ->assertOk()
-    ->assertJsonPath('yes', 1);
-
-$this->postJson("/api/titik-api/{$report->id}/vote", $payload)
-    ->assertOk()
-    ->assertJsonPath('yes', 0);
-
+$this->call(
+    'POST',
+    "/api/titik-api/{$report->id}/vote",
+    $payload,
+    ['voter_id' => 'test-voter-id'],
+    [],
+    ['HTTP_ACCEPT' => 'application/json']
+)->assertOk()
+  ->assertJsonPath('yes', 0);
+  
     $this->assertDatabaseCount('fire_votes', 0);
 
     $report->refresh();
     expect($report->yes_count)->toBe(0);
 });
-
-

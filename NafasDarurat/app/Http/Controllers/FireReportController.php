@@ -59,10 +59,10 @@ return response()->json(
 
         $choice = $request->validate(['choice' => ['required', 'in:y,n']])['choice'];
         $key = $this->voterKey($request);
-        logger('Vote session debug', [
-    'session_id' => $request->session()->getId(),
+       logger('Vote session debug', [
+    'cookie_voter_id' => $request->cookie('voter_id'),
     'voter_key' => $key,
-    ]);
+]);
 
         $column = $choice === 'y' ? 'yes_count' : 'no_count';
 
@@ -72,6 +72,13 @@ return response()->json(
                 'voter_key' => $key,
                 'choice' => $choice,
             ])->first();
+
+            logger('Existing vote check', [
+                 'fire_report_id' => $fireReport->id,
+                 'voter_key' => $key,
+                 'choice' => $choice,
+                  'existing_vote_id' => $existing?->id,
+            ]);
 
             if ($existing) {
                 $existing->delete();
