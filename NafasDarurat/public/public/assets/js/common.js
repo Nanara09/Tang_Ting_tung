@@ -11,7 +11,7 @@
       cek: "/cek.blade.php",
       laporApi: "/lapor-api",
       laporGejala: "/lapor-gejala",
-      admin: "/login",
+      admin: "/admin/masuk",
     },
     window.ROUTES || {}
   );

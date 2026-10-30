@@ -16,6 +16,15 @@
 @endphp
 
 @section('content')
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lapor gejala | NafasDarurat</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
+</head>
+<body>
+  <br> <br>
 <main id="main" class="container" style="padding-top:32px">
   <div class="row" style="justify-content:space-between;align-items:flex-start;margin-bottom:24px;gap:16px">
     <div style="max-width:600px">
@@ -154,5 +163,15 @@
       });
     });
   })();
+
+<script src="{{ asset('public/assets/js/data.js') }}"></script>
+<script src="{{ asset('public/assets/js/common.js') }}"></script>
+<script src="{{ asset('public/assets/js/reveal.js') }}"></script>
+<script src="{{ asset('public/assets/js/index.js') }}"></script>
+<script src="{{ asset('public/assets/js/cek.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-gejala.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-api.js') }}"></script>
+<script src="{{ asset('public/assets/js/admin.js') }}"></script>
 </script>
+</body>
 @endpush
