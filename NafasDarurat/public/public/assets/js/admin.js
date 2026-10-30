@@ -1,4 +1,4 @@
-/* NafasDarurat - admin.js
+/* NafasAman - admin.js
    Panel admin: verifikasi titik api, ringkasan gejala, ekspor CSV.
    PENTING: login di sini hanya demo di sisi klien dan TIDAK aman.
    Di produksi, autentikasi dan otorisasi harus dilakukan di server. */
@@ -7,8 +7,8 @@
   const { esc, timeAgo } = NA;
   const $ = (sel) => document.querySelector(sel);
 
-  const DEMO_USER = 'admin';
-  const DEMO_PASS = 'admin123';
+  const DEMO_USER = 'admin@gmail.com';
+  const DEMO_PASS = 'niagarafruit';
 
   const authed = () => {
     try { return sessionStorage.getItem('na_admin') === '1'; } catch (e) { return false; }

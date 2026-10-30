@@ -1,5 +1,5 @@
-/* NafasDarurat - cek.js
-   Pemeriksa gejala berbasis aturan sederhana, mudah dijelaskan dan diuji. */
+/* Nafas Darurat - cek.js
+   Pemeriksa gejala berbasis aturan sederhana (tanpa AI), mudah dijelaskan dan diuji. */
 (function () {
   'use strict';
   const { esc } = NA;

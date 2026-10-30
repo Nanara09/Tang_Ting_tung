@@ -1,4 +1,4 @@
-/* NafasDarurat - data.js
+/* NafasAman - data.js
    Data bersama, helper, dan penyimpanan.
    Prototipe ini memakai localStorage sebagai pengganti backend/database.
    Saat dihubungkan ke server (Laravel/Express), ganti NA.fire.* dan NA.health.* dengan fetch() ke REST API. */
@@ -99,12 +99,12 @@
   };
 
   NA.FACILITIES = [
-    { type: 'oksigen', name: 'Rumah Oksigen Kelurahan A', city: 'Palangka Raya', addr: 'Jl. [alamat lengkap]', hours: '[diisi admin]' },
-    { type: 'puskesmas', name: 'Puskesmas B', city: 'Palangka Raya', addr: 'Jl. [alamat lengkap]', hours: '[diisi admin]' },
-    { type: 'posko', name: 'Posko Karhutla Kota C', city: 'Pontianak', addr: 'Jl. [alamat lengkap]', hours: '[diisi admin]' },
-    { type: 'oksigen', name: 'Rumah Oksigen Kecamatan D', city: 'Jambi', addr: 'Jl. [alamat lengkap]', hours: '[diisi admin]' },
-    { type: 'puskesmas', name: 'Puskesmas E', city: 'Palembang', addr: 'Jl. [alamat lengkap]', hours: '[diisi admin]' },
-    { type: 'posko', name: 'Posko Kesehatan F', city: 'Jambi', addr: 'Jl. [alamat lengkap]', hours: '[diisi admin]' }
+    { type: 'oksigen', name: 'Rumah Oksigen Kelurahan Bukit Tunggal', city: 'Palangka Raya', addr: 'Jl. Badak XVI', hours: '07.00 - 23.59' },
+    { type: 'puskesmas', name: 'Puskesmas Marina Permai', city: 'Palangka Raya', addr: 'Jl. Marina Permai II No.65', hours: '07.00 - 14.30' },
+    { type: 'posko', name: 'Posko Karhutla Kota Pontianak', city: 'Pontianak', addr: 'Jl. Karya Baru', hours: 'Buka 24 Jam' },
+    { type: 'oksigen', name: 'Rumah Oksigen Kecamatan Danau Tlk', city: 'Jambi', addr: 'Jl. KH. M. Thayib No.12', hours: '09.00 - 22.00' },
+    { type: 'puskesmas', name: 'Puskesmas Dempo', city: 'Palembang', addr: 'Jl. Kolonel Atmo No.861', hours: '07.30 - 14.00' },
+    { type: 'posko', name: 'Posko Karhutla Kota Jambi', city: 'Jambi', addr: 'Jl. Pematang Raman', hours: 'Buka 24 Jam' }
   ];
   NA.FAC_TYPES = { oksigen: 'Rumah oksigen', puskesmas: 'Puskesmas', posko: 'Posko' };
 
@@ -152,23 +152,23 @@
   const FIRE_KEY = 'na_fire';
   const HEALTH_KEY = 'na_health';
   const VOTE_KEY = 'na_votes';
-  const SEED_KEY = 'na_seeded_v1';
+  const SEED_KEY = 'na_seeded_v6';
   const MIN = 60000;
 
   function seed() {
     const now = Date.now();
     const fire = [
-      { id: 'r1', place: 'Kel. A, Palangka Raya', desc: 'Api terlihat di lahan kosong dekat permukiman.', ts: now - 20 * MIN, st: 'api', lat: -2.23, lng: 113.9, yes: 12, no: 1, state: 'approved', photo: '' },
-      { id: 'r4', place: 'Kel. D, Pontianak', desc: 'Asap tebal dari lahan gambut di tepi jalan.', ts: now - 60 * MIN, st: 'api', lat: -0.05, lng: 109.32, yes: 7, no: 0, state: 'approved', photo: '' },
-      { id: 'r2', place: 'Kec. B, Jambi', desc: 'Petugas sudah di lokasi, api mulai mengecil.', ts: now - 120 * MIN, st: 'tangani', lat: -1.6, lng: 103.64, yes: 5, no: 2, state: 'approved', photo: '' },
-      { id: 'r3', place: 'Desa C, Ogan Ilir', desc: 'Api sudah padam, masih ada sisa asap tipis.', ts: now - 300 * MIN, st: 'padam', lat: -3.22, lng: 104.64, yes: 1, no: 9, state: 'approved', photo: '' },
-      { id: 'p1', place: 'Kel. F, Palembang', desc: 'Api kecil di semak dekat jalan raya.', ts: now - 10 * MIN, st: 'api', lat: -2.95, lng: 104.76, yes: 0, no: 0, state: 'pending', photo: '' },
-      { id: 'p2', place: 'Kec. H, Palangka Raya', desc: 'Petugas pemadam sedang di lokasi.', ts: now - 40 * MIN, st: 'tangani', lat: -2.19, lng: 113.95, yes: 0, no: 0, state: 'pending', photo: '' }
+   { id: 'r1', place: 'Kel. Sabaru, Palangka Raya', desc: 'Api terlihat di lahan kosong dekat permukiman.', ts: now - 20 * MIN, st: 'api', lat: -2.23, lng: 113.9, yes: 12, no: 1, state: 'approved', photo: '/public/assets/img/1.jpg' },
+{ id: 'r4', place: 'Kel. Bansir Darat, Pontianak', desc: 'Asap tebal dari lahan gambut di tepi jalan.', ts: now - 60 * MIN, st: 'api', lat: -0.05, lng: 109.32, yes: 7, no: 0, state: 'approved', photo: '/public/assets/img/2.jpg' },
+{ id: 'r2', place: 'Kec. Berbak, Jambi', desc: 'Petugas sudah di lokasi, api mulai mengecil.', ts: now - 120 * MIN, st: 'tangani', lat: -1.6, lng: 103.64, yes: 5, no: 2, state: 'approved', photo: '/public/assets/img/3.webp' },
+{ id: 'r3', place: 'Desa Sungai Rambutan, Ogan Ilir', desc: 'Api sudah padam, masih ada sisa asap tipis.', ts: now - 300 * MIN, st: 'padam', lat: -3.22, lng: 104.64, yes: 1, no: 9, state: 'approved', photo: '/public/assets/img/4.webp' },
+{ id: 'p1', place: 'Kel. Karya Jaya, Palembang', desc: 'Api kecil di semak dekat jalan raya.', ts: now - 10 * MIN, st: 'api', lat: -2.95, lng: 104.76, yes: 0, no: 0, state: 'pending', photo: '/public/assets/img/5.webp' },
+{ id: 'p2', place: 'Kec. Jekan Raya, Palangka Raya', desc: 'Petugas pemadam sedang di lokasi.', ts: now - 40 * MIN, st: 'tangani', lat: -2.19, lng: 113.95, yes: 0, no: 0, state: 'pending', photo: '/public/assets/img/6.webp' }
     ];
     NA.store.set(FIRE_KEY, fire);
 
     // Laporan gejala contoh dibuat deterministik agar grafik tidak berubah-ubah.
-    const spec = [['Kel. A', 'Palangka Raya', 64], ['Kel. D', 'Pontianak', 48], ['Kec. B', 'Jambi', 31], ['Desa C', 'Ogan Ilir', 12], ['Kel. E', 'Palembang', 9]];
+    const spec = [['Kel. Sabaru', 'Palangka Raya', 64], ['Kel. Bansir Darat', 'Pontianak', 48], ['Kec. Berbak, Jambi', 'Jambi', 31], ['Desa Sungai Rambutan', 'Ogan Ilir', 12], ['Kel. Karya Jaya', 'Palembang', 9]];
     const groups = ['umum', 'umum', 'balita', 'umum', 'asma', 'lansia', 'hamil'];
     const durs = ['baru', 'sedang', 'lama'];
     const health = [];

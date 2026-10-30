@@ -1,4 +1,4 @@
-/* Nafas Darurat - cek.js
+/* NafasAman - cek.js
    Pemeriksa gejala berbasis aturan sederhana (tanpa AI), mudah dijelaskan dan diuji. */
 (function () {
   'use strict';

@@ -4,11 +4,20 @@
 @section('leaflet', true)
 
 @section('content')
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lapor titik api | NafasAman</title>
+<meta name="description" content="Laporkan titik api atau asap tebal lengkap dengan lokasi dan foto. Laporan ditinjau admin sebelum tampil di peta.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
+</head>
+<body>
 <div class="page-head">
   <div class="container">
-    <a class="back" href="{{ route('home') }}#peta" aria-label="Kembali ke peta titik api">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="#14302B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-    </a>
     <h1>Lapor titik api</h1>
   </div>
 </div>
@@ -24,7 +33,7 @@
       <div class="stack">
         <div class="field">
           <label for="place">Nama lokasi</label>
-          <input id="place" type="text" maxlength="80" placeholder="Contoh: Kel. A, Palangka Raya" autocomplete="off" required>
+          <input id="place" type="text" maxlength="80" placeholder="Contoh: Kel Jatihandap" autocomplete="off" required>
         </div>
         <div class="pick-map"><div id="pick-map" style="position:absolute;inset:0" aria-label="Peta untuk menandai lokasi api"></div></div>
         <button type="button" class="btn btn-outline" id="btn-gps" style="border-radius:14px">
@@ -58,16 +67,25 @@
       </div>
     </section>
 
-    <div class="notice">
-      <span>Nama dan kontakmu tidak ditampilkan ke publik. Laporan ditinjau admin sebelum muncul di peta. Foto diperkecil dan data lokasi bawaan foto (EXIF) dihapus.</span>
-    </div>
-
     <p class="err" id="err" role="alert"></p>
     <button type="submit" class="btn btn-fire btn-block">Kirim laporan</button>
   </form>
 </main>
+
+
+
+
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/lapor-api.js') }}"></script>
+<script src="{{ asset('public/assets/js/data.js') }}"></script>
+<script src="{{ asset('public/assets/js/common.js') }}"></script>
+<script src="{{ asset('public/assets/js/reveal.js') }}"></script>
+<script src="{{ asset('public/assets/js/index.js') }}"></script>
+<script src="{{ asset('public/assets/js/cek.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-gejala.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-api.js') }}"></script>
+<script src="{{ asset('public/assets/js/admin.js') }}"></script>
+</body>
+</html>
 @endpush

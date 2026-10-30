@@ -3,11 +3,19 @@
 @section('description', 'Laporkan gejala kesehatan akibat kabut asap secara anonim. Data dirangkum per wilayah.')
 
 @section('content')
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lapor gejala | NafasAman</title>
+<meta name="description" content="Laporkan gejala kesehatan akibat kabut asap secara anonim. Data dirangkum per wilayah.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
+</head>
+<body>
 <div class="page-head">
   <div class="container">
-    <a class="back" href="{{ route('home') }}" aria-label="Kembali ke beranda">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="#14302B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-    </a>
     <h1>Lapor gejala</h1>
   </div>
 </div>
@@ -22,13 +30,13 @@
       <h2 id="h1"><span class="n">1</span>Wilayah</h2>
       <div class="fields">
         <div class="field">
-          <label for="kota">Kota</label>
-          <input id="kota" name="kota" type="text" list="kota-list" maxlength="40" autocomplete="off" required>
+          <label for="kota">Kota / Kabupaten</label>
+          <input id="kota" name="kota" type="text" placeholder="Contoh: Kota Bandung" list="kota-list" maxlength="40" autocomplete="off" required>
           <datalist id="kota-list"></datalist>
         </div>
         <div class="field">
           <label for="kel">Kelurahan / desa</label>
-          <input id="kel" name="kel" type="text" maxlength="40" placeholder="Contoh: Kelurahan A" autocomplete="off" required>
+          <input id="kel" name="kel" type="text" maxlength="40" placeholder="Contoh: Kelurahan Jatihandap" autocomplete="off" required>
         </div>
       </div>
     </section>
@@ -48,10 +56,6 @@
       <div class="opts" id="group-opts"></div>
     </section>
 
-    <div class="notice">
-      <span>Laporan anonim. Yang dikirim hanya wilayah, gejala, dan lama gejala, tanpa nama, kontak, atau lokasi tepat.</span>
-    </div>
-
     <p class="err" id="err" role="alert"></p>
     <button type="submit" class="btn btn-primary btn-block">Kirim laporan gejala</button>
   </form>
@@ -59,5 +63,14 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/lapor-gejala.js') }}"></script>
+<script src="{{ asset('public/assets/js/data.js') }}"></script>
+<script src="{{ asset('public/assets/js/common.js') }}"></script>
+<script src="{{ asset('public/assets/js/reveal.js') }}"></script>
+<script src="{{ asset('public/assets/js/index.js') }}"></script>
+<script src="{{ asset('public/assets/js/cek.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-gejala.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-api.js') }}"></script>
+<script src="{{ asset('public/assets/js/admin.js') }}"></script>
+</body>
+</html>
 @endpush

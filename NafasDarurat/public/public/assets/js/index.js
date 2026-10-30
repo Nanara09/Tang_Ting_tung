@@ -1,4 +1,4 @@
-/* Nafas Darurat - index.js
+/* NafasAman - index.js
    Beranda: cek udara, grafik gejala, peta titik api, daftar fasilitas. */
 (function () {
   'use strict';
@@ -26,29 +26,19 @@
     $('#air-ispu').textContent = d.ispu;
     $('#air-level').innerHTML = '<i class="dot"></i>' + esc(NA.LEVELS[key]);
     $('#air-tips').innerHTML = NA.ADVICE[key].concat([group.tip]).map((t) => '<li>' + esc(t) + '</li>').join('');
-    const note = ' Saran umum, bukan pengganti nasihat tenaga kesehatan.';
-    $('#air-source').textContent = d.live
-      ? 'Perkiraan ISPU dari PM2.5 terkini (Open-Meteo).' + note
-      : d.pending
-      ? 'Memuat data langsung...' + note
-      : 'Data contoh, data langsung tidak tersedia.' + note;
   }
 
-  // Server mengambil PM2.5 dari Open-Meteo, menghitung ISPU, dan men-cache hasilnya.
   function loadAir() {
-    NA.CITIES.forEach((c) => (air.data[c.id] = { ispu: c.sample, live: false, pending: true }));
-    renderAir();
-    NA.api
-      .air()
-      .then((res) => {
-        NA.CITIES.forEach((c) => {
-          air.data[c.id] = res && res[c.id] ? { ispu: res[c.id].ispu, live: !!res[c.id].live } : { ispu: c.sample, live: false };
-        });
-      })
-      .catch(() => {
-        NA.CITIES.forEach((c) => (air.data[c.id] = { ispu: c.sample, live: false }));
-      })
-      .finally(renderAir);
+    NA.CITIES.forEach(async (c) => {
+      air.data[c.id] = { ispu: c.sample, live: false, pending: true };
+      try {
+        const pm = await NA.fetchPm25(c);
+        air.data[c.id] = { ispu: NA.pm25ToIspu(pm), live: true };
+      } catch (e) {
+        air.data[c.id] = { ispu: c.sample, live: false };
+      }
+      renderAir();
+    });
   }
 
   $('#cek').addEventListener('click', (e) => {
@@ -61,17 +51,8 @@
   });
 
   /* ---------- 2. Grafik gejala per wilayah ---------- */
-  function loadHealth() {
-    NA.api
-      .healthSummary()
-      .then(renderHealth)
-      .catch(() => {
-        $('#bars').innerHTML = '<p class="muted">Data gejala tidak bisa dimuat.</p>';
-      });
-  }
-
-  function renderHealth(summary) {
-    const rows = summary.wilayah;
+  function renderHealth() {
+    const rows = NA.health.byWilayah().slice(0, 5);
     const max = rows.length ? rows[0].n : 1;
     $('#bars').innerHTML = rows.length
       ? rows
@@ -83,31 +64,23 @@
           )
           .join('')
       : '<p class="muted">Belum ada laporan gejala.</p>';
-    $('#sym-top').innerHTML = summary.gejala
+    $('#sym-top').innerHTML = NA.health
+      .bySymptom()
+      .slice(0, 3)
       .map((s) => '<span class="chip neutral">' + esc(NA.symLabel(s.id)) + ' &middot; ' + s.n + '</span>')
       .join('');
   }
 
   /* ---------- 3. Peta & daftar titik api ---------- */
-  const fire = { filter: 'semua', sel: null, map: null, layer: null, markers: {}, items: [] };
+  const fire = { filter: 'semua', sel: null, map: null, layer: null, markers: {} };
   const PHOTO_ICON =
     '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"></rect><circle cx="9" cy="10.5" r="1.8" stroke="currentColor" stroke-width="1.6"></circle><path d="M4 17l5-4.5 3.5 3L16 12l4 4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></svg>';
 
-  // Server hanya mengirim laporan yang sudah disetujui admin; filter status dilakukan di sini.
   const visibleReports = () =>
-    fire.items.filter((r) => fire.filter === 'semua' || r.st === fire.filter).sort((a, b) => b.ts - a.ts);
-
-  function loadFire() {
-    NA.api
-      .fireList()
-      .then((items) => {
-        fire.items = items;
-        refreshFire();
-      })
-      .catch(() => {
-        $('#reports').innerHTML = '<div class="empty">Laporan titik api tidak bisa dimuat.</div>';
-      });
-  }
+    NA.fire
+      .all()
+      .filter((r) => r.state === 'approved' && (fire.filter === 'semua' || r.st === fire.filter))
+      .sort((a, b) => b.ts - a.ts);
 
   function renderFilters() {
     const items = [['semua', 'Semua'], ['api', 'Masih terbakar'], ['tangani', 'Dalam penanganan'], ['padam', 'Sudah padam']];
@@ -138,12 +111,17 @@
 
   function renderList() {
     const list = visibleReports();
+    const votes = NA.fire.votes();
     $('#reports').innerHTML = list.length
       ? list
           .map((r) => {
-            const vy = !!r.voted.y;
-            const vn = !!r.voted.n;
-            const photo = r.photo ? '<img src="' + esc(r.photo) + '" alt="Foto laporan ' + esc(r.place) + '">' : PHOTO_ICON;
+            const vy = !!votes[r.id + ':y'];  
+            const vn = !!votes[r.id + ':n'];
+            const isPhoto = r.photo && (r.photo.indexOf('data:image/') === 0 || r.photo.indexOf('assets/img/') !== -1);
+            const photo = isPhoto
+              ? '<img src="' + esc(r.photo) + '" alt="Foto laporan ' + esc(r.place) + '">'
+              : PHOTO_ICON;
+              
             return (
               '<article class="report' + (fire.sel === r.id ? ' is-selected' : '') + '" data-id="' + esc(r.id) + '">' +
               '<div class="report-photo">' + photo + '</div>' +
@@ -165,7 +143,7 @@
   function select(id, fly) {
     fire.sel = id;
     Object.keys(fire.markers).forEach((k) => {
-      const r = fire.items.find((x) => x.id === k);
+      const r = NA.fire.all().find((x) => x.id === k);
       if (r) fire.markers[k].setIcon(pinIcon(r));
     });
     renderList();
@@ -212,21 +190,20 @@
     const id = card.dataset.id;
     if (b.dataset.act === 'focus') return select(id, true);
     // Konfirmasi warga: "masih ada api" (y) atau "sudah padam" (n). Klik lagi untuk membatalkan.
-    b.disabled = true;
-    NA.api
-      .fireVote(id, b.dataset.act)
-      .then((updated) => {
-        const i = fire.items.findIndex((x) => x.id === id);
-        if (i > -1) fire.items[i] = updated;
-        renderList();
-      })
-      .catch(() => {
-        b.disabled = false;
-      });
+    const key = id + ':' + b.dataset.act;
+    const votes = NA.fire.votes();
+    const on = !votes[key];
+    votes[key] = on;
+    NA.fire.saveVotes(votes);
+    NA.fire.update(id, (r) => {
+      const f = b.dataset.act === 'y' ? 'yes' : 'no';
+      r[f] = Math.max(0, r[f] + (on ? 1 : -1));
+    });
+    renderList();
   });
 
   /* ---------- 4. Fasilitas ---------- */
-  const fac = { q: '', type: 'semua', items: [] };
+  const fac = { q: '', type: 'semua' };
 
   function renderFacTypes() {
     const items = [['semua', 'Semua']].concat(Object.entries(NA.FAC_TYPES));
@@ -235,7 +212,7 @@
 
   function renderFac() {
     const q = fac.q.trim().toLowerCase();
-    const list = fac.items.filter(
+    const list = NA.FACILITIES.filter(
       (f) => (fac.type === 'semua' || f.type === fac.type) && (!q || (f.name + ' ' + f.city + ' ' + f.addr).toLowerCase().indexOf(q) !== -1)
     );
     $('#fac-list').innerHTML = list.length
@@ -263,25 +240,14 @@
     renderFac();
   });
 
-  function loadFac() {
-    NA.api
-      .facilities()
-      .then((items) => {
-        fac.items = items;
-        renderFac();
-      })
-      .catch(() => {
-        $('#fac-list').innerHTML = '<div class="empty">Data fasilitas tidak bisa dimuat.</div>';
-      });
-  }
-
   /* ---------- Mulai ---------- */
   renderAirPills();
+  renderAir();
   loadAir();
-  loadHealth();
+  renderHealth();
   renderFilters();
   initMap();
-  loadFire();
+  refreshFire();
   renderFacTypes();
-  loadFac();
+  renderFac();
 })();

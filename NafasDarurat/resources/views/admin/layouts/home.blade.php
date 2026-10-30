@@ -4,11 +4,25 @@
 @section('leaflet', true)
 
 @section('content')
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NafasDarurat | Pantau udara, jaga napas keluarga</title>
+<meta name="description" content="Cek kualitas udara, periksa gejala kesehatan akibat kabut asap, dan laporkan keluhan serta titik api.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
+</head>
+<body>
+<a class="skip" href="#main">Lewati ke konten</a>
+
+
 <main id="main">
   <section class="hero">
     <div class="container hero-inner">
-      <div class="hero-copy">
-        <span class="eyebrow">Pantauan kabut asap</span>
+      <div class="hero-copy">  
         <h1>Pantau udara, jaga napas keluarga.</h1>
         <p class="lead">Cek kualitas udara, periksa gejala kesehatanmu, dan laporkan keluhan supaya petugas tahu wilayah mana yang paling terdampak.</p>
         <div class="row">
@@ -57,7 +71,7 @@
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><rect x="5" y="4" width="16" height="19" rx="3" stroke="#1D4E89" stroke-width="2"></rect><path d="M9 4.5h8M9 11h8M9 15h8M9 19h4" stroke="#1D4E89" stroke-width="2" stroke-linecap="round"></path></svg>
         </span>
         <h3 style="margin:4px 0 0;font-size:20px;font-weight:800">Lapor gejala</h3>
-        <p class="muted" style="margin:0">Laporkan keluhanmu secara anonim. Data dirangkum per wilayah, tanpa nama pelapor.</p>
+        <p class="muted" style="margin:0">Laporkan keluhanmu di halaman lapor gejala supaya kami tahu gejalamu</p>
         <a class="btn btn-outline" style="align-self:flex-start" href="{{ route('lapor.gejala') }}">Lapor gejala</a>
       </article>
     </div>
@@ -65,7 +79,7 @@
     <div class="card stack" style="margin-top:20px;gap:18px">
       <div class="row" style="align-items:center;justify-content:space-between">
         <h3 style="margin:0;font-size:18px;font-weight:800">Gejala yang dilaporkan per wilayah</h3>
-        <span class="chip neutral">Data contoh + laporan baru dari browser ini</span>
+        
       </div>
       <div class="bars" id="bars"></div>
       <div class="row small muted" style="align-items:center">
@@ -99,7 +113,7 @@
 
   <section class="section container" id="fasilitas">
     <h2 class="title">Rumah oksigen &amp; posko kesehatan</h2>
-    <p class="sub">Temukan layanan terdekat untuk warga yang sesak napas akibat asap. Data dikelola admin; isian di bawah masih contoh.</p>
+    <p class="sub">Temukan layanan terdekat untuk warga yang sesak napas akibat asap</p>
     <div class="toolbar">
       <div class="search">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="#4A625D" stroke-width="1.8"></circle><path d="M14 14l4 4" stroke="#4A625D" stroke-width="1.8" stroke-linecap="round"></path></svg>
@@ -114,8 +128,8 @@
   <section class="section container">
     <div class="cta">
       <div style="flex:1 1 340px;min-width:0">
-        <h2>Batuk, sesak, atau mata perih karena asap? Cek kesehatanmu sekarang.</h2>
-        <p>Melihat api atau asap tebal? Lapor titik api di sini, atau hubungi Posko Karhutla Kementerian Kehutanan di +62 8131-00-35000 dan 021-5704618.</p>
+        <h2>Batuk, sesak, atau mata perih karena asap? <br>Cek kesehatanmu sekarang.</h2>
+        <p>Melihat api atau asap tebal? Lapor titik api di sini, atau hubungi Posko Karhutla Kementerian Kehutanan di 0813-1003-5000.</p>
       </div>
       <div class="row" style="gap:12px">
         <a class="btn btn-primary" href="{{ route('cek') }}">Cek kesehatan</a>
@@ -124,8 +138,20 @@
     </div>
   </section>
 </main>
+
+
+
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/js/index.js') }}"></script>
+<script src="{{ asset('public/assets/js/data.js') }}"></script>
+<script src="{{ asset('public/assets/js/common.js') }}"></script>
+<script src="{{ asset('public/assets/js/reveal.js') }}"></script>
+<script src="{{ asset('public/assets/js/index.js') }}"></script>
+<script src="{{ asset('public/assets/js/cek.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-gejala.js') }}"></script>
+<script src="{{ asset('public/assets/js/lapor-api.js') }}"></script>
+<script src="{{ asset('public/assets/js/admin.js') }}"></script>
+</body>
+</html>
 @endpush

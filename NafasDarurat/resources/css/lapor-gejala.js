@@ -1,5 +1,5 @@
-/* NafasDarurat - lapor-gejala.js
-   Form laporan gejala anonim. Validasi di sisi klien; saat ada backend, validasi ulang di server. */
+/* Nafas Darurat - lapor-gejala.js
+   Form laporan gejala anonim. Validasi cepat di klien; validasi sebenarnya ada di StoreHealthReportRequest (Laravel). */
 (function () {
   'use strict';
   const { esc } = NA;
@@ -42,7 +42,7 @@
   const err = $('#err');
   let lastSubmit = 0;
 
-  $('#form').addEventListener('submit', (e) => {
+  $('#form').addEventListener('submit', async (e) => {
     e.preventDefault();
     err.textContent = '';
     const kota = $('#kota').value.trim().replace(/\s+/g, ' ');
@@ -56,8 +56,17 @@
     if (!symptoms.length) { err.textContent = 'Pilih minimal satu gejala.'; return; }
     if (Date.now() - lastSubmit < 10000) { err.textContent = 'Tunggu sebentar sebelum mengirim lagi.'; return; }
 
-    const ok = NA.health.add({ id: NA.uid(), kota, kel, symptoms, dur, group, ts: Date.now() });
-    if (!ok) { err.textContent = 'Penyimpanan di browser penuh. Coba lagi nanti.'; return; }
+    const btn = $('#form button[type="submit"]');
+    btn.disabled = true;
+    try {
+      // Validasi di server tetap jadi penentu; cek di atas hanya untuk kenyamanan pengguna.
+      await NA.api.healthAdd({ kota, kelurahan: kel, gejala: symptoms, durasi: dur, kelompok: group });
+    } catch (ex) {
+      err.textContent = ex.message;
+      btn.disabled = false;
+      return;
+    }
+    btn.disabled = false;
     lastSubmit = Date.now();
     $('#form').hidden = true;
     $('#done').hidden = false;

@@ -1,4 +1,4 @@
-/* Nafas Darurat - lapor-api.js
+/* NafasAman - lapor-api.js
    Lapor titik api: pilih lokasi di peta (Leaflet + OpenStreetMap), status, foto, keterangan. */
 (function () {
   'use strict';
@@ -71,9 +71,8 @@
     );
   });
 
-  /* ---------- Foto: validasi dan perkecil di browser (server memproses ulang & menghapus EXIF) ---------- */
-  let photo = null; // Blob JPEG hasil perkecilan
-  let previewUrl = '';
+  /* ---------- Foto: validasi, perkecil, hapus EXIF ---------- */
+  let photo = '';
 
   function resizeImage(file, max) {
     return new Promise((resolve, reject) => {
@@ -86,7 +85,7 @@
         c.height = Math.round(img.height * s);
         c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
         URL.revokeObjectURL(url);
-        c.toBlob((b) => (b ? resolve(b) : reject(new Error('Gambar tidak bisa diproses.'))), 'image/jpeg', 0.72);
+        resolve(c.toDataURL('image/jpeg', 0.72));
       };
       img.onerror = () => {
         URL.revokeObjectURL(url);
@@ -98,8 +97,7 @@
 
   $('#foto').addEventListener('change', async (e) => {
     err.textContent = '';
-    photo = null;
-    if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = ''; }
+    photo = '';
     $('#preview').style.display = 'none';
     const f = e.target.files[0];
     if (!f) return;
@@ -107,8 +105,7 @@
     if (f.size > 2 * 1024 * 1024) { err.textContent = 'Ukuran foto maksimal 2 MB.'; e.target.value = ''; return; }
     try {
       photo = await resizeImage(f, 800);
-      previewUrl = URL.createObjectURL(photo);
-      $('#preview-img').src = previewUrl;
+      $('#preview-img').src = photo;
       $('#preview').style.display = 'block';
     } catch (ex) {
       err.textContent = ex.message;
@@ -118,7 +115,7 @@
 
   /* ---------- Kirim ---------- */
   let lastSubmit = 0;
-  $('#form').addEventListener('submit', async (e) => {
+  $('#form').addEventListener('submit', (e) => {
     e.preventDefault();
     err.textContent = '';
     const place = $('#place').value.trim().replace(/\s+/g, ' ');
@@ -129,25 +126,12 @@
     if (pos.lat === null) { err.textContent = 'Tandai lokasi di peta atau gunakan lokasi saya.'; return; }
     if (Date.now() - lastSubmit < 10000) { err.textContent = 'Tunggu sebentar sebelum mengirim lagi.'; return; }
 
-    // Di server laporan berstatus "pending": belum tampil di peta publik sampai admin menyetujui.
-    const fd = new FormData();
-    fd.append('place', place);
-    fd.append('description', desc);
-    fd.append('status', st);
-    fd.append('lat', pos.lat);
-    fd.append('lng', pos.lng);
-    if (photo) fd.append('photo', photo, 'foto.jpg');
-
-    const btn = $('#form button[type="submit"]');
-    btn.disabled = true;
-    try {
-      await NA.api.fireAdd(fd);
-    } catch (ex) {
-      err.textContent = ex.message;
-      btn.disabled = false;
-      return;
-    }
-    btn.disabled = false;
+    // state "pending": belum tampil di peta publik sampai admin menyetujui.
+    const ok = NA.fire.add({
+      id: NA.uid(), place, desc: desc || '-', ts: Date.now(), st,
+      lat: pos.lat, lng: pos.lng, yes: 0, no: 0, state: 'pending', photo
+    });
+    if (!ok) { err.textContent = 'Penyimpanan di browser penuh. Coba kirim tanpa foto.'; return; }
     lastSubmit = Date.now();
     $('#form').hidden = true;
     $('#done').hidden = false;
