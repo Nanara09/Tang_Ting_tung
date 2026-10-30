@@ -29,6 +29,7 @@ class HealthReportController extends Controller
         $data = $request->validated();
 
         HealthReport::create([
+            'nama' => $data['nama'],
             'kota' => $data['kota'],
             'kelurahan' => $data['kelurahan'],
             'gejala' => array_values(array_unique($data['gejala'])),

@@ -1,4 +1,8 @@
+<<<<<<< HEAD:NafasDarurat/resources/css/index.js
 /* Nafas Darurat - index.js
+=======
+/* NafasDarurat
+>>>>>>> ec3aa9302347b839d4ea51e2bcb3676bfc57c443:NafasDarurat/resources/js/index.js
    Beranda: cek udara, grafik gejala, peta titik api, daftar fasilitas. */
 (function () {
   'use strict';

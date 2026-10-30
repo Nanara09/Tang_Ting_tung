@@ -60,14 +60,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('public/assets/js/data.js') }}"></script>
-<script src="{{ asset('public/assets/js/common.js') }}"></script>
-<script src="{{ asset('public/assets/js/reveal.js') }}"></script>
-<script src="{{ asset('public/assets/js/index.js') }}"></script>
-<script src="{{ asset('public/assets/js/cek.js') }}"></script>
-<script src="{{ asset('public/assets/js/lapor-gejala.js') }}"></script>
-<script src="{{ asset('public/assets/js/lapor-api.js') }}"></script>
-<script src="{{ asset('public/assets/js/admin.js') }}"></script>
-</body>
-</html>
+<script src="{{ asset('assets/js/cek.js') }}"></script>
 @endpush

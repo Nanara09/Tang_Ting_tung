@@ -26,13 +26,12 @@ class FireReportController extends Controller
             ->groupBy('fire_report_id');
 return response()->json(
     $reports->map(function ($r) use ($voted) {
-        $data = (array) $r;
-
-        $data['votes'] = ($voted[$r->id] ?? collect())
+        $mine = ($voted[$r->id] ?? collect())
             ->pluck('choice')
             ->all();
 
-        return $data;
+            return array_merge($r->toPublic($mine), ['votes' => $mine,
+            ]);
     })->values()
 );
     }
@@ -60,6 +59,11 @@ return response()->json(
 
         $choice = $request->validate(['choice' => ['required', 'in:y,n']])['choice'];
         $key = $this->voterKey($request);
+       logger('Vote session debug', [
+    'cookie_voter_id' => $request->cookie('voter_id'),
+    'voter_key' => $key,
+]);
+
         $column = $choice === 'y' ? 'yes_count' : 'no_count';
 
         DB::transaction(function () use ($fireReport, $choice, $key, $column) {
@@ -68,6 +72,13 @@ return response()->json(
                 'voter_key' => $key,
                 'choice' => $choice,
             ])->first();
+
+            logger('Existing vote check', [
+                 'fire_report_id' => $fireReport->id,
+                 'voter_key' => $key,
+                 'choice' => $choice,
+                  'existing_vote_id' => $existing?->id,
+            ]);
 
             if ($existing) {
                 $existing->delete();
@@ -87,10 +98,16 @@ return response()->json(
     }
 
     /** Penanda pemilih berbasis session (di-hash). Bukan pengamanan kuat, hanya pencegah klik berulang. */
-    private function voterKey(Request $request): string
-    {
-        return hash('sha256', $request->session()->getId());
+   private function voterKey(Request $request): string
+{
+    $voterId = $request->cookie('voter_id');
+
+    if (!$voterId) {
+        $voterId = $request->session()->getId();
     }
+
+    return hash('sha256', $voterId);
+}
 
     /**
      * Baca ulang gambar dengan GD lalu simpan sebagai JPEG yang diperkecil.

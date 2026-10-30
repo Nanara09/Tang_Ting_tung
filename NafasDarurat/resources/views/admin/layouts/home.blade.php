@@ -140,7 +140,6 @@
 </main>
 
 
-
 @endsection
 
 @push('scripts')

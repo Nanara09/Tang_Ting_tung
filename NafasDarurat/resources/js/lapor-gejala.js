@@ -1,11 +1,14 @@
+<<<<<<< HEAD:NafasDarurat/resources/css/lapor-gejala.js
 /* Nafas Darurat - lapor-gejala.js
    Form laporan gejala anonim. Validasi cepat di klien; validasi sebenarnya ada di StoreHealthReportRequest (Laravel). */
+=======
+>>>>>>> ec3aa9302347b839d4ea51e2bcb3676bfc57c443:NafasDarurat/resources/js/lapor-gejala.js
 (function () {
   'use strict';
   const { esc } = NA;
   const $ = (sel) => document.querySelector(sel);
 
-  $('#kota-list').innerHTML = NA.CITIES.map((c) => '<option value="' + esc(c.name) + '"></option>').join('');
+  $('#kota').insertAdjacentHTML('beforeend', NA.CITIES.map((c) => '<option value="' + esc(c.name) + '">' + esc(c.name) + '</option>').join(''));
 
   $('#sym-grid').innerHTML = NA.SYMPTOMS.map(
     (s) =>
@@ -45,13 +48,16 @@
   $('#form').addEventListener('submit', async (e) => {
     e.preventDefault();
     err.textContent = '';
+    const nama = $('#nama').value.trim().replace(/\s+/g, ' ');
     const kota = $('#kota').value.trim().replace(/\s+/g, ' ');
     const kel = $('#kel').value.trim().replace(/\s+/g, ' ');
     const symptoms = Array.from(document.querySelectorAll('input[name="gejala"]:checked')).map((i) => i.value);
     const dur = document.querySelector('input[name="dur"]:checked').value;
     const group = document.querySelector('input[name="kelompok"]:checked').value;
 
-    if (!kota) { err.textContent = 'Isi nama kota.'; $('#kota').focus(); return; }
+    if (!nama) { err.textContent = 'Isi nama pelapor.'; $('#nama').focus(); return; }
+    if (nama.length > 255) { err.textContent = 'Nama maksimal 255 karakter.'; $('#nama').focus(); return; }
+    if (!kota) { err.textContent = 'Pilih nama kota.'; $('#kota').focus(); return; }
     if (!kel) { err.textContent = 'Isi kelurahan atau desa.'; $('#kel').focus(); return; }
     if (!symptoms.length) { err.textContent = 'Pilih minimal satu gejala.'; return; }
     if (Date.now() - lastSubmit < 10000) { err.textContent = 'Tunggu sebentar sebelum mengirim lagi.'; return; }

@@ -10,11 +10,12 @@ class EnsureAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        /** @var \App\Models\User|null $user */
-        $user = $request->user();
-
-        if (! $user || ! $user->is_admin) {
+        if (! $request->user()) {
             return redirect()->route('admin.login');
+        }
+
+        if (! $request->user()->is_admin) {
+            abort(403, 'Akses khusus admin.');
         }
 
         return $next($request);

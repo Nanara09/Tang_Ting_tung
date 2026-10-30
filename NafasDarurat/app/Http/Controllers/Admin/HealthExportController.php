@@ -13,12 +13,13 @@ class HealthExportController extends Controller
         return response()->streamDownload(function () {
             $out = fopen('php://output', 'w');
             fwrite($out, "\xEF\xBB\xBF"); // BOM agar Excel membaca UTF-8
-            fputcsv($out, ['id', 'waktu', 'kota', 'kelurahan', 'gejala', 'lama', 'kelompok']);
+            fputcsv($out, ['id', 'waktu', 'nama', 'kota', 'kelurahan', 'gejala', 'lama', 'kelompok']);
 
             foreach (HealthReport::orderBy('id')->cursor() as $r) {
                 fputcsv($out, array_map([$this, 'safe'], [
                     $r->id,
                     $r->created_at->toIso8601String(),
+                    $r->nama,
                     $r->kota,
                     $r->kelurahan,
                     implode('|', $r->gejala),
