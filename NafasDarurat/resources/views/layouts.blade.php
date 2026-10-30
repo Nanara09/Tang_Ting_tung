@@ -44,7 +44,7 @@
             'cek'         => Route::has('cek')          ? route('cek')          : url('/cek'),
             'laporApi'    => Route::has('lapor.api')    ? route('lapor.api')    : url('/lapor-api'),
             'laporGejala' => Route::has('lapor.gejala') ? route('lapor.gejala') : url('/lapor-gejala'),
-            'admin'       => Route::has('login')        ? route('login')        : url('/login'),
+            'admin'       => Route::has('login')        ? route('login')        : url('/admin/masuk'),
         ];
     @endphp
     <script>window.ROUTES = @json($navRoutes);</script>

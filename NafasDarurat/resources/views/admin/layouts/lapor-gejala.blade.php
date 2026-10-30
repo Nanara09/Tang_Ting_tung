@@ -8,7 +8,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lapor gejala | NafasAman</title>
+<title>Lapor gejala | NafasDarurat</title>
 <meta name="description" content="Laporkan gejala kesehatan akibat kabut asap secara anonim. Data dirangkum per wilayah.">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('public/assets/css/style.css') }}">
@@ -22,7 +22,7 @@
 
 <main id="main" class="form-page">
   <div id="done" class="notice success" role="status" hidden>
-    <span>Terima kasih, laporanmu sudah tercatat dan masuk ke ringkasan per wilayah. <a href="index.html#kesehatan"><b>Lihat ringkasan</b></a></span>
+    <span>Terima kasih, laporanmu sudah tercatat dan masuk ke ringkasan per wilayah. <a href="/#kesehatan"><b>Lihat ringkasan</b></a></span>
   </div>
 
   <form id="form" novalidate style="display:flex;flex-direction:column;gap:22px">
